@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@types/web-bluetooth": "^0.0.17",
+    "typescript": "^5.2.2"
+  }
+}

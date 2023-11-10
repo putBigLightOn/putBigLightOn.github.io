@@ -1,0 +1,104 @@
+:root{
+  --border-rounding: 6px;
+  --table-hue: 102deg;
+}
+html {
+  background: rgb(24, 24, 24);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15pt;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 5fr;
+  place-items: start center;
+}
+
+header {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+main {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+aside {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+table {
+  border-spacing: 0 var(--border-rounding);
+  border-collapse: separate;
+  background-color: hsl(var(--table-hue), 45%, 89%);
+  color: hsl(var(--table-hue), 45%, 20%);
+  padding: var(--border-rounding);
+  border-bottom-left-radius: var(--border-rounding);
+  border-bottom-right-radius: var(--border-rounding);
+}
+
+td {
+  background-color: hsl(var(--table-hue) 45% 70%);
+  padding: var(--border-rounding);
+  border-color: green;
+}
+
+td:first-child {
+  border-top-left-radius: var(--border-rounding);
+  border-bottom-left-radius: var(--border-rounding);
+}
+
+td:last-child {
+  border-top-right-radius: var(--border-rounding);
+  border-bottom-right-radius: var(--border-rounding);
+}
+
+canvas {
+  border: 1px solid black;
+}
+
+.alert {
+  padding: 20px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  background-color: #dff0d8; /* Green */
+  color: #3c763d;
+  margin-bottom: 15px;
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
+/* The close button */
+.close-button {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.close-button:hover {
+  color: black;
+}
+
+input.error {
+  background-color: pink;
+}

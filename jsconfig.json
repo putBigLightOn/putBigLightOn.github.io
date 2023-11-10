@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "checkJs": true,
+    "strict": true
+  },
+  "exclude": [
+    "node-modules",
+    "service-worker.js",
+    "workers"
+  ]
+}
