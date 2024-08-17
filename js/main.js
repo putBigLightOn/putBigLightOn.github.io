@@ -1,9 +1,8 @@
 import sendMessage from './message.js';
-// import BluetoothController from './bluetooth.js';
 import { provisionDevice } from './provision.js';
+import { databaseUpgrade, lookupNetworkKey } from './database.js';
 
 if (document.readyState == 'loading') {
-  console.log("Adding initial event listener");
   document.addEventListener('DOMContentLoaded', checkBluetoothAvailability);
 } else {
   checkBluetoothAvailability();
@@ -12,8 +11,7 @@ if (document.readyState == 'loading') {
 async function checkBluetoothAvailability() {
   if (!("bluetooth" in navigator)) {
     sendMessage("This browser doesn't support Bluetooth, but it might be available as an experimental feature");
-    sendMessage('For the Chrome browser go to chrome://flags#enable-web-bluetooth in the address bar and select enable.');
-    sendMessage('Additionally chrome://flags#enable-web-bluetooth-new-permissions-backend needs to be enabled.');
+    sendMessage('For the Chrome browser go to chrome://flags#enable-experimental-web-platform-features in the address bar and select enable.');
     return;
   }
 
@@ -24,10 +22,11 @@ async function checkBluetoothAvailability() {
     return;
   }
 
+  const request = window.indexedDB.open("MeshNetworks", 1);
+  request.addEventListener("upgradeneeded", databaseUpgrade);
+  request.addEventListener("success", lookupNetworkKey);
+
   const provisionButton = /** @type {HTMLButtonElement} */(document.getElementById('provision-device'));
   provisionButton.addEventListener('click', provisionDevice);
   provisionButton.disabled = false;
-
-  // const bluetooth = new BluetoothController();
-  // await bluetooth.displayKnownDevices();
 }

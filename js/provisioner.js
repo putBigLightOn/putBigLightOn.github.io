@@ -1,6 +1,7 @@
 import { proxyPDU } from "./mesh.js";
 import sendMessage from "./message.js";
 import { AES_CMAC, s1, k1, AES_CCM } from "./crypto.js";
+import {databaseUpgrade} from "./database.js";
 
 const SAR_COMPLETE = 0b00;
 
@@ -18,6 +19,8 @@ export default class Provision {
   /** @type {HTMLButtonElement} */
   #provisionButton;
 
+  // Invite(1) + Capabilities(11) + Start(5) + Provisioner X (32) + Provisioner Y (32)
+  // + Device X (32) + Device Y (32)
   /** @type {Uint8Array} */
   #confirmationInputs = new Uint8Array(1 + 11 + 5 + 32 * 4);
 
@@ -155,8 +158,12 @@ export default class Provision {
       case 0x06: // Provisioning Random
         console.log('Received random PDU');
         await this.#checkConfirmation(proxyPDU);
-        await this.#provisioningDataPDU();
+        this.#getNetworkKey();
+        // await this.#provisioningDataPDU();
         return;
+      case 0x08:
+        console.log('Provisioning complete');
+        return
       case 0x09: // Provisioning Failed
         this.#readFailure(proxyPDU);
         return;
@@ -363,6 +370,16 @@ export default class Provision {
   }
 
   /**
+   * @return {void}
+   */
+  #getNetworkKey() {
+    const request = window.indexedDB.open("MeshNetworks", 1);
+    request.addEventListener("upgradeneeded", databaseUpgrade);
+    request.addEventListener("success", lookupNetworkKey);
+    this.#abortProvisioning();
+  }
+
+  /**
    * @return {Promise<void>}
    */
   async #provisioningDataPDU() {
@@ -389,9 +406,9 @@ export default class Provision {
 
     const provisioningData = new Uint8Array(25);
 
-    await AES_CCM(PDU.subarray(2), sessionKey, sessionNonce, provisioningData);
+    await AES_CCM(PDU.subarray(2), sessionKey, sessionNonce.subarray(3), provisioningData);
 
-    await this.#send(PDU);
+    // await this.#send(PDU);
   }
 
   /**

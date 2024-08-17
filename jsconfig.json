@@ -6,7 +6,7 @@
     "strict": true
   },
   "exclude": [
-    "node-modules",
+    "node_modules",
     "service-worker.js",
     "workers"
   ]
