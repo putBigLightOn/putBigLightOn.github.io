@@ -1,7 +1,7 @@
 {
   "lang": "en-us",
-  "name": "switchBigLightOn App",
-  "short_name": "switchBigLightOn",
+  "name": "putBigLightOn App",
+  "short_name": "putBigLightOn",
   "description": "Control Bluetooth Mesh lights.",
   "scope": "/",
   "start_url": "/",
