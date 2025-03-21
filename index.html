@@ -7,6 +7,8 @@
   <link rel="shortcut icon" href="assets/android-launchericon-192-192.png" />
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/main.js"></script>
+  <!-- script type="module" src="js/load-service-worker.js"></script-->
   <title>putBigLightOn</title>
 </head>
 
@@ -19,10 +21,16 @@
       <h1>New Mesh Network</h1>
       <button id="provision-device" disabled>Add Device</button>
     </div>
+    <div class="message" id="errors">
+      <p id="error-message">
+        Javascript appears to be disabled, this app won't work without Javascript.
+      </p>
+      <p id="error-fix">
+        If possible, enable Javascript or use another browser.
+      </p>
+    </div>
   </main>
   <footer><a href="about.html">About</a></footer>
-  <script type="module" src="js/main.js"></script>
-  <!-- script type="module" src="js/load-service-worker.js"></script-->
 </body>
 
 </html>

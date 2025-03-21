@@ -38,19 +38,29 @@ export async function provisionDevice(event) {
     const PROVISIONING_SERVICE = '00001827-0000-1000-8000-00805f9b34fb';
     const PROVISIONING_DATA_IN = '00002adb-0000-1000-8000-00805f9b34fb';
     const PROVISIONING_DATA_OUT = '00002adc-0000-1000-8000-00805f9b34fb';
+
     const gattServer = await device.gatt.connect()
-    const provisioningService = await gattServer.getPrimaryService(PROVISIONING_SERVICE);
-    provisioningDataOut = await provisioningService.getCharacteristic(PROVISIONING_DATA_OUT);
-    provisioningDataIn = await provisioningService.getCharacteristic(PROVISIONING_DATA_IN);
+
+    const provisioningService =
+      await gattServer.getPrimaryService(PROVISIONING_SERVICE);
+
+    provisioningDataOut =
+      await provisioningService.getCharacteristic(PROVISIONING_DATA_OUT);
+
+    provisioningDataIn =
+      await provisioningService.getCharacteristic(PROVISIONING_DATA_IN);
+
   } catch (error) {
-    if (error instanceof DOMException) {
+    if (error instanceof DOMException)
       sendMessage(error.message);
-    }
+
     provisionButton.innerHTML = 'Add Device';
     provisionButton.disabled = false;
     return;
   }
 
-  const provisioner = new Provisioner(provisioningDataIn, provisioningDataOut, provisionButton);
+  const provisioner =
+    new Provisioner(provisioningDataIn, provisioningDataOut, provisionButton);
+
   await provisioner.sendInvite();
 }
